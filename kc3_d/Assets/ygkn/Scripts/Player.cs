@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rb = null;
 
+    bool started = false;
+
+    float jumpElapsedTime = float.PositiveInfinity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,17 +27,17 @@ public class Player : MonoBehaviour
         bool isGround = groundingCheck.IsGround();
         bool clicked = Input.GetMouseButton(0) || Input.touchCount > 0;
 
-        if (clicked && rb.velocity.x == 0) {
-            rb.velocity += new Vector2(speed, 0);
+        started = started || clicked;
+
+        if (clicked && isGround) {
+            jumpElapsedTime = 0.0f;
         }
 
-        if (isGround && clicked) {
-            rb.velocity += new Vector2(0, jumpSpeed);
-        }
+        jumpElapsedTime += Time.deltaTime;
 
-        if (!isGround) {
-            rb.velocity += new Vector2(0, -gravity);
-        }
 
+        rb.velocity = new Vector2(started ? speed : 0, jumpSpeed - gravity * jumpElapsedTime);
+
+        Debug.Log(rb.velocity);
     }
 }
