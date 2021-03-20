@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stage
   - Ground
+  - Hurdle
   layers:
   - Default
   - TransparentFX
